@@ -3,816 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>OR Simulation Center — Simulation Suite</title>
+<title>OR Simulation Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#f2f0eb;--bg2:#e8e5de;--panel:#fff;
+  --bd:#d4d0c8;--bd2:#bab6ac;
+  --tx:#1a1916;--sub:#7a7670;--sub2:#a09c96;
+  --accent:#c8420a;--green:#1a6e3a;--blue:#0f4a8a;--amber:#9a5a08;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Syne',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
 
-/* ══════════════════════════════════════════════════════════
-   VERSION TABLE — edit this block only when you update files
-   ══════════════════════════════════════════════════════════ */
+/* HEADER */
+header{background:var(--tx);padding:0 40px;position:relative;overflow:hidden;}
+.hi{max-width:960px;margin:0 auto;padding:48px 0 40px;position:relative;z-index:1;}
+.rule{width:48px;height:3px;background:var(--accent);margin-bottom:18px;}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;color:#665;text-transform:uppercase;margin-bottom:10px;}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(32px,6vw,56px);font-weight:400;color:#fff;line-height:1.08;letter-spacing:-0.5px;}
+h1 em{font-style:italic;color:#d4a882;}
+.hsub{font-size:13px;color:#555;margin-top:12px;line-height:1.8;max-width:440px;}
 
-/*
-  TO UPDATE A VERSION:
-  1. Find the tool card in the HTML below
-  2. Change data-version="v1.x" to the new version
-  3. Change data-updated="Mar 19 2026" to today's date
-  4. Upload this index.html + the updated tool file
-  That's it.
-*/
+/* MAIN */
+main{max-width:960px;margin:0 auto;padding:40px 40px 80px;position:relative;z-index:1;}
 
-:root {
-  --bg: #f2f0eb;
-  --bg2: #e8e5de;
-  --panel: #ffffff;
-  --bd: #d4d0c8;
-  --bd2: #bab6ac;
-  --tx: #1a1916;
-  --sub: #7a7670;
-  --sub2: #a09c96;
-  --accent: #c8420a;
-  --accent2: #e85a1a;
-  --green: #1a6e3a;
-  --blue: #0f4a8a;
-  --amber: #9a5a08;
-  --hl: #fff8f0;
-}
+/* SECTION */
+.sect{margin:40px 0 16px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+.sect:first-child{margin-top:0;}
+.sect-title{font-size:18px;font-weight:800;letter-spacing:-.3px;}
+.sect-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);letter-spacing:.5px;}
+.sect-line{flex:1;height:1px;background:var(--bd);min-width:20px;}
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
 
-html { scroll-behavior: smooth; }
+/* CARD */
+.card{
+  background:var(--panel);border:1px solid var(--bd);border-radius:14px;
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  animation:up .35s ease both;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.09);border-color:var(--bd2);}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.c1{animation-delay:.04s}.c2{animation-delay:.08s}.c3{animation-delay:.12s}
+.c4{animation-delay:.16s}.c5{animation-delay:.20s}.c6{animation-delay:.24s}
 
-body {
-  background: var(--bg);
-  color: var(--tx);
-  font-family: 'Syne', sans-serif;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
+.stripe{height:3px;}
+.cb{padding:20px 20px 14px;flex:1;display:flex;flex-direction:column;}
+.ci{font-size:28px;margin-bottom:10px;line-height:1;}
+.cn{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:3px;}
+.cf{font-family:'DM Mono',monospace;font-size:9px;color:var(--sub2);margin-bottom:8px;letter-spacing:.3px;}
+.cd{font-size:12px;color:var(--sub);line-height:1.7;flex:1;}
 
-/* ── GRAIN OVERLAY ── */
-body::before {
-  content:'';
-  position:fixed;inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:0;opacity:.5;
+.cf-foot{
+  border-top:1px solid var(--bd);padding:11px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fafaf8;
 }
+.vn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--tx);}
+.vd{font-family:'DM Mono',monospace;font-size:9px;color:var(--sub2);margin-top:1px;}
+.brow{display:flex;gap:6px;}
 
-/* ── HEADER ── */
-header {
-  position: relative;
-  background: var(--tx);
-  padding: 0 40px;
-  overflow: hidden;
+.btn{
+  background:var(--tx);color:#fff;border:none;border-radius:7px;
+  padding:7px 14px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.5px;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:background .15s;white-space:nowrap;
 }
+.btn:hover{background:#2a2820;}
+.btn.g{background:var(--green);}.btn.g:hover{background:#145530;}
+.btn.b{background:var(--blue);}.btn.b:hover{background:#0a3a70;}
+.btn.a{background:var(--amber);}.btn.a:hover{background:#7a4406;}
+.btn.sm{background:var(--bg2);color:var(--sub);border:1px solid var(--bd);font-size:10px;padding:6px 10px;}
+.btn.sm:hover{background:var(--bd);color:var(--tx);}
 
-.header-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 52px 0 44px;
-  position: relative;
-  z-index: 1;
-}
+/* WIDE CARD */
+.card.wide{grid-column:1/-1;flex-direction:row;}
+.card.wide .stripe{width:3px;height:auto;flex-shrink:0;}
+.card.wide .cb{padding:20px 22px;flex-direction:row;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+.card.wide .cf-foot{border-top:none;border-left:1px solid var(--bd);flex-direction:column;align-items:flex-start;justify-content:center;min-width:150px;padding:18px 20px;}
 
-.header-rule {
-  width: 48px; height: 3px;
-  background: var(--accent);
-  margin-bottom: 20px;
-}
+/* FOOTER */
+footer{background:var(--tx);padding:24px 40px;position:relative;z-index:1;}
+.fi{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.fc,.fn{font-family:'DM Mono',monospace;font-size:11px;color:#444;}
 
-.header-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: #665;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.header-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(36px, 6vw, 62px);
-  font-weight: 400;
-  color: #fff;
-  line-height: 1.08;
-  letter-spacing: -0.5px;
-  margin-bottom: 6px;
-}
-
-.header-title em {
-  font-style: italic;
-  color: #d4a882;
-}
-
-.header-sub {
-  font-size: 14px;
-  color: #666;
-  font-weight: 400;
-  margin-top: 14px;
-  max-width: 500px;
-  line-height: 1.7;
-}
-
-/* Decorative cross */
-.header-cross {
-  position: absolute;
-  right: 0; top: 50%;
-  transform: translateY(-50%);
-  width: 180px; height: 180px;
-  opacity: 0.04;
-}
-.header-cross::before, .header-cross::after {
-  content:''; position:absolute;
-  background: #fff;
-}
-.header-cross::before { width:3px;height:100%;left:50%;top:0; }
-.header-cross::after  { height:3px;width:100%;top:50%;left:0; }
-
-/* ── STATUS BAR ── */
-.status-bar {
-  background: var(--tx);
-  border-top: 1px solid #2a2820;
-  padding: 10px 40px;
-}
-.status-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-.stat-pill {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: #666;
-}
-.stat-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #3a6;
-  box-shadow: 0 0 6px rgba(50,200,100,.6);
-  animation: pulse-dot 2s ease infinite;
-}
-@keyframes pulse-dot {
-  0%,100%{opacity:1} 50%{opacity:.4}
-}
-.stat-dot.amber { background: #c8900a; box-shadow: 0 0 6px rgba(200,144,10,.5); }
-
-/* ── MAIN ── */
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 48px 40px 80px;
-  position: relative;
-  z-index: 1;
-}
-
-/* ── SECTION HEADERS ── */
-.section-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--sub2);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.section-label::after {
-  content:'';flex:1;height:1px;background:var(--bd);
-}
-
-/* ── TOOL GRID ── */
-.tool-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  margin-bottom: 48px;
-}
-
-/* ── TOOL CARD ── */
-.tool-card {
-  background: var(--panel);
-  border: 1px solid var(--bd);
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
-  animation: card-in .4s ease both;
-}
-.tool-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,0,0,.10);
-  border-color: var(--bd2);
-}
-@keyframes card-in {
-  from { opacity:0; transform: translateY(12px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-.tool-card:nth-child(1){animation-delay:.05s}
-.tool-card:nth-child(2){animation-delay:.1s}
-.tool-card:nth-child(3){animation-delay:.15s}
-.tool-card:nth-child(4){animation-delay:.2s}
-.tool-card:nth-child(5){animation-delay:.25s}
-.tool-card:nth-child(6){animation-delay:.3s}
-.tool-card:nth-child(7){animation-delay:.35s}
-.tool-card:nth-child(8){animation-delay:.4s}
-
-.card-accent {
-  height: 3px;
-  width: 100%;
-}
-.ca-orange { background: linear-gradient(90deg, var(--accent), #f08040); }
-.ca-green  { background: linear-gradient(90deg, #1a7a3a, #2ab860); }
-.ca-blue   { background: linear-gradient(90deg, #0f4a8a, #2a7acc); }
-.ca-purple { background: linear-gradient(90deg, #5a2a8a, #8a4acc); }
-.ca-teal   { background: linear-gradient(90deg, #0a6a6a, #1aacac); }
-.ca-amber  { background: linear-gradient(90deg, #8a5a08, #c89020); }
-
-.card-body {
-  padding: 20px 20px 14px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-icon {
-  font-size: 26px;
-  margin-bottom: 10px;
-  line-height: 1;
-}
-
-.card-name {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -.3px;
-  margin-bottom: 4px;
-  color: var(--tx);
-}
-
-.card-filename {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--sub2);
-  margin-bottom: 10px;
-  letter-spacing: .5px;
-}
-
-.card-desc {
-  font-size: 13px;
-  color: var(--sub);
-  line-height: 1.7;
-  flex: 1;
-  font-weight: 400;
-}
-
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 12px;
-}
-.tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.tag-or  { background:#fff4f0;color:#b03010;border:1px solid #f0d0c0; }
-.tag-hw  { background:#f0f4ff;color:#1040a0;border:1px solid #c0d0f0; }
-.tag-peds{ background:#f0fff4;color:#107030;border:1px solid #c0e8d0; }
-.tag-acls{ background:#fff8f0;color:#904010;border:1px solid #f0dcc0; }
-.tag-ai  { background:#f8f0ff;color:#6020a0;border:1px solid #dcc0f0; }
-.tag-3d  { background:#f0f8ff;color:#106090;border:1px solid #c0d8f0; }
-
-/* ── CARD FOOTER ── */
-.card-footer {
-  border-top: 1px solid var(--bd);
-  padding: 11px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background: #fafaf8;
-}
-
-.version-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.version-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--tx);
-}
-.version-date {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--sub2);
-}
-
-.card-btns {
-  display: flex;
-  gap: 6px;
-}
-
-.btn-launch {
-  background: var(--tx);
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  padding: 7px 14px;
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: background .15s;
-  white-space: nowrap;
-}
-.btn-launch:hover { background: #2a2820; }
-.btn-launch.green { background: var(--green); }
-.btn-launch.green:hover { background: #145530; }
-.btn-launch.blue  { background: var(--blue); }
-.btn-launch.blue:hover  { background: #0a3a70; }
-
-.btn-dl {
-  background: var(--bg2);
-  color: var(--sub);
-  border: 1px solid var(--bd);
-  border-radius: 7px;
-  padding: 7px 10px;
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  transition: all .15s;
-}
-.btn-dl:hover { background: var(--bd); color: var(--tx); }
-
-/* ── HARDWARE CARD (wide) ── */
-.tool-card.wide {
-  grid-column: 1 / -1;
-  flex-direction: row;
-}
-.tool-card.wide .card-accent {
-  width: 3px; height: auto;
-}
-.tool-card.wide .card-body { padding: 22px 24px; }
-.tool-card.wide .card-footer {
-  border-top: none;
-  border-left: 1px solid var(--bd);
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  min-width: 180px;
-  padding: 20px;
-  background: #fafaf8;
-}
-
-/* ── HOW TO UPDATE SECTION ── */
-.update-box {
-  background: var(--hl);
-  border: 1px solid #f0d8c0;
-  border-radius: 12px;
-  padding: 24px 28px;
-  margin-bottom: 48px;
-}
-.update-box h3 {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 10px;
-  font-family: 'DM Mono', monospace;
-}
-.update-steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 14px;
-}
-.update-step {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-.step-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--accent);
-  background: #fde8d8;
-  border-radius: 4px;
-  padding: 2px 7px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.step-txt {
-  font-size: 12px;
-  color: var(--sub);
-  line-height: 1.6;
-}
-
-/* ── FOOTER ── */
-footer {
-  background: var(--tx);
-  padding: 28px 40px;
-  position: relative;
-  z-index: 1;
-}
-.footer-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.footer-copy {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: #444;
-}
-.footer-links {
-  display: flex;
-  gap: 20px;
-}
-.footer-links a {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: #555;
-  text-decoration: none;
-}
-.footer-links a:hover { color: #aaa; }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 700px) {
-  header, .status-bar, main, footer { padding-left: 20px; padding-right: 20px; }
-  .tool-card.wide { flex-direction: column; }
-  .tool-card.wide .card-accent { width:100%; height:3px; }
-  .tool-card.wide .card-footer { border-left:none; border-top:1px solid var(--bd); flex-direction:row; min-width:unset; }
-  .header-cross { display:none; }
+@media(max-width:640px){
+  header,main,footer{padding-left:20px;padding-right:20px;}
+  .card.wide{flex-direction:column;}
+  .card.wide .stripe{width:100%;height:3px;}
+  .card.wide .cf-foot{border-left:none;border-top:1px solid var(--bd);flex-direction:row;min-width:unset;}
+  .card.wide .cb{flex-direction:column;gap:8px;}
 }
 </style>
 </head>
 <body>
 
-<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
 <header>
-  <div class="header-cross"></div>
-  <div class="header-inner">
-    <div class="header-rule"></div>
-    <div class="header-eyebrow">orsimcenter.com — Simulation Technology</div>
-    <h1 class="header-title">OR Simulation<br><em>Software Suite</em></h1>
-    <p class="header-sub">Self-contained anesthesia simulation tools for clinical education. All files run in any browser — no installation, no accounts, no internet required after download.</p>
+  <div class="hi">
+    <div class="rule"></div>
+    <div class="eyebrow">OR Simulation Center</div>
+    <h1>Simulation<br><em>Suite</em></h1>
+    <p class="hsub">All tools run in any browser. No install required.</p>
   </div>
 </header>
 
-<!-- ══ STATUS BAR ═══════════════════════════════════════════════════════════ -->
-<div class="status-bar">
-  <div class="status-inner">
-    <div class="stat-pill"><div class="stat-dot"></div>Suite v2.0 · Mar 2026</div>
-    <div class="stat-pill"><div class="stat-dot"></div>8 tools available</div>
-    <div class="stat-pill"><div class="stat-dot amber"></div>HapticLung Mk.5 — hardware required</div>
-  </div>
-</div>
-
-<!-- ══ MAIN ══════════════════════════════════════════════════════════════════ -->
 <main>
 
-  <!-- ── UPDATE INSTRUCTIONS ── -->
-  <div class="update-box">
-    <h3>⟳ Keeping versions current</h3>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7">When a tool file is updated, edit the two lines below its card name in this file, then re-upload <code style="font-family:'DM Mono',monospace;font-size:11px;background:#fde8d8;padding:1px 5px;border-radius:3px">index.html</code> alongside the new tool file. No other changes needed.</p>
-    <div class="update-steps">
-      <div class="update-step"><div class="step-num">01</div><div class="step-txt">Get updated file from Claude project</div></div>
-      <div class="update-step"><div class="step-num">02</div><div class="step-txt">Open <code style="font-family:'DM Mono',monospace">index.html</code> — find the card, update <code style="font-family:'DM Mono',monospace">data-version</code> and <code style="font-family:'DM Mono',monospace">data-updated</code></div></div>
-      <div class="update-step"><div class="step-num">03</div><div class="step-txt">Upload both files to Cloudflare Pages or GitHub Pages</div></div>
-      <div class="update-step"><div class="step-num">04</div><div class="step-txt">Version badge on this page updates automatically</div></div>
-    </div>
+  <!-- ══ SECTION 1: HOSTING A SESSION ══ -->
+  <div class="sect">
+    <div class="sect-title">🏥 Hosting a session</div>
+    <div class="sect-sub">Open in order · connect with same room code</div>
+    <div class="sect-line"></div>
   </div>
 
-  <!-- ══ SIMULATION SOFTWARE ══════════════════════════════════════════════ -->
-  <div class="section-label">Simulation Software — Deploy all to same GitHub Pages repo</div>
+  <div class="grid">
 
-  <div class="tool-grid">
-
-    <!-- MedSim Monitor -->
-    <div class="tool-card"
-         data-version="v10"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-orange"></div>
-      <div class="card-body">
-        <div class="card-icon">🖥️</div>
-        <div class="card-name">Patient Monitor</div>
-        <div class="card-filename">medsim-10.html</div>
-        <div class="card-desc">Full OR patient monitor with live ECG, SpO2 pleth, arterial line, EtCO2, NIBP, and alarms. Connects to controller via PeerJS room code. Run on the bedside display device.</div>
-        <div class="card-tags">
-          <span class="tag tag-or">OR Sim</span>
-          <span class="tag tag-acls">Monitor</span>
-        </div>
+    <div class="card c1" data-v="v10" data-d="Apr 2026">
+      <div class="stripe" style="background:linear-gradient(90deg,#c8420a,#f08040)"></div>
+      <div class="cb">
+        <div class="ci">🖥️</div>
+        <div class="cn">Patient Monitor</div>
+        <div class="cf">Step 1 — open first on bedside display</div>
+        <div class="cd">Live ECG, SpO2, art line, EtCO2, NIBP, alarms. Shows the room code everyone connects to.</div>
       </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="medsim-10.html" class="btn-launch" target="_blank">▶ Launch</a>
-          <a href="medsim-10.html" download class="btn-dl">↓</a>
+      <div class="cf-foot">
+        <div><div class="vn"></div><div class="vd"></div></div>
+        <div class="brow">
+          <a class="btn" href="https://babusl.github.io/vitalmonitor/index.html" target="_blank">▶ Launch</a>
+          <a class="btn sm" href="https://babusl.github.io/vitalmonitor/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
-    <!-- Ventilator -->
-    <div class="tool-card"
-         data-version="v5"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-teal"></div>
-      <div class="card-body">
-        <div class="card-icon">🌬️</div>
-        <div class="card-name">Ventilator Simulator</div>
-        <div class="card-filename">medsim-vent-5.html</div>
-        <div class="card-desc">Three-panel ventilator waveforms — pressure, flow, volume — with VCV, PCV, SIMV, PSV, and Manual modes. Pathology waveforms include bronchospasm, pneumothorax, ARDS, and more. Synced with monitor EtCO2.</div>
-        <div class="card-tags">
-          <span class="tag tag-or">OR Sim</span>
-          <span class="tag tag-acls">Ventilator</span>
-        </div>
+    <div class="card c2" data-v="v5" data-d="Apr 2026">
+      <div class="stripe" style="background:linear-gradient(90deg,#0a6a6a,#1aacac)"></div>
+      <div class="cb">
+        <div class="ci">🌬️</div>
+        <div class="cn">Ventilator Simulator</div>
+        <div class="cf">Step 2 — second screen or tablet</div>
+        <div class="cd">VCV, PCV, SIMV, PSV. Real waveforms. Pathology modes: bronchospasm, pneumothorax, ARDS and more.</div>
       </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="medsim-vent-5.html" class="btn-launch" target="_blank">▶ Launch</a>
-          <a href="medsim-vent-5.html" download class="btn-dl">↓</a>
+      <div class="cf-foot">
+        <div><div class="vn"></div><div class="vd"></div></div>
+        <div class="brow">
+          <a class="btn" href="https://babusl.github.io/ventsim/index.html" target="_blank">▶ Launch</a>
+          <a class="btn sm" href="https://babusl.github.io/ventsim/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
-    <!-- Instructor Controller -->
-    <div class="tool-card"
-         data-version="v16"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-orange"></div>
-      <div class="card-body">
-        <div class="card-icon">📱</div>
-        <div class="card-name">Instructor Controller</div>
-        <div class="card-filename">controller-16.html</div>
-        <div class="card-desc">Instructor phone interface. Controls monitor vitals, rhythms, drugs, and ventilator pathology in real time. Includes Sim Runner with AI scenario builder, 6 pediatric presets, and participant lock.</div>
-        <div class="card-tags">
-          <span class="tag tag-or">OR Sim</span>
-          <span class="tag tag-peds">Peds Presets</span>
-          <span class="tag tag-ai">AI Builder</span>
-        </div>
+    <div class="card c3" data-v="v16" data-d="Apr 2026">
+      <div class="stripe" style="background:linear-gradient(90deg,#9a5a08,#c89020)"></div>
+      <div class="cb">
+        <div class="ci">📱</div>
+        <div class="cn">Instructor Controller</div>
+        <div class="cf">Step 3 — your phone</div>
+        <div class="cd">Controls drugs, rhythms, vent pathology. Sim Runner with AI scenario builder and 6 peds presets built in.</div>
       </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="controller-16.html" class="btn-launch" target="_blank">▶ Launch</a>
-          <a href="controller-16.html" download class="btn-dl">↓</a>
+      <div class="cf-foot">
+        <div><div class="vn"></div><div class="vd"></div></div>
+        <div class="brow">
+          <a class="btn a" href="https://babusl.github.io/SimVitalsController/index.html" target="_blank">▶ Launch</a>
+          <a class="btn sm" href="https://babusl.github.io/SimVitalsController/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
-    <!-- Participant Controller -->
-    <div class="tool-card"
-         data-version="v1.2"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-green"></div>
-      <div class="card-body">
-        <div class="card-icon">🩺</div>
-        <div class="card-name">Learner Controller</div>
-        <div class="card-filename">participant-controller.html</div>
-        <div class="card-desc">Participant-facing controller for supervised sessions. Same room code as monitor. Drugs, NMB, analgesics, ventilator adjustments, and procedures. Instructor can lock controls remotely.</div>
-        <div class="card-tags">
-          <span class="tag tag-or">OR Sim</span>
-          <span class="tag tag-acls">Learner</span>
-        </div>
+    <div class="card c4" data-v="v1.2" data-d="Apr 2026">
+      <div class="stripe" style="background:linear-gradient(90deg,#1a6e3a,#2ab860)"></div>
+      <div class="cb">
+        <div class="ci">🩺</div>
+        <div class="cn">Learner Controller</div>
+        <div class="cf">Step 4 — share with participants</div>
+        <div class="cd">Participant phone interface. Drugs, NMB, analgesics, vent, procedures. Instructor can lock remotely.</div>
       </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="participant-controller.html" class="btn-launch btn-launch green" target="_blank">▶ Launch</a>
-          <a href="participant-controller.html" download class="btn-dl">↓</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- MedSim Solo -->
-    <div class="tool-card"
-         data-version="v1.1"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-purple"></div>
-      <div class="card-body">
-        <div class="card-icon">🎓</div>
-        <div class="card-name">MedSim Solo</div>
-        <div class="card-filename">medsim-solo.html</div>
-        <div class="card-desc">Self-directed simulation — no instructor needed. Choose from 13 hardcoded ACLS/PALS scenarios or enter free text for an AI-generated custom scenario. Wrong answers give AHA-guideline feedback. Tracks elapsed time and score.</div>
-        <div class="card-tags">
-          <span class="tag tag-acls">ACLS</span>
-          <span class="tag tag-peds">PALS</span>
-          <span class="tag tag-ai">AI Scenarios</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="medsim-solo.html" class="btn-launch btn-launch blue" target="_blank">▶ Launch</a>
-          <a href="medsim-solo.html" download class="btn-dl">↓</a>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Suite Entry Point -->
-    <div class="tool-card"
-         data-version="v1.0"
-         data-updated="Mar 22 2026">
-      <div class="card-accent" style="background:linear-gradient(90deg,#00e676,#40c8ff)"></div>
-      <div class="card-body">
-        <div class="card-icon">🚀</div>
-        <div class="card-name">Simulation Suite</div>
-        <div class="card-filename">suite.html</div>
-        <div class="card-desc">Unified entry point for everything. Two-button home screen: OR Simulation (instructor-led setup guide + file links) or Solo Training (ACLS/PALS algorithms + live OR scenario library fetched from GitHub). Start here if you don't know which file to open.</div>
-        <div class="card-tags">
-          <span class="tag tag-or">Entry Point</span>
-          <span class="tag tag-acls">ACLS/PALS</span>
-          <span class="tag tag-peds">OR Library</span>
-          <span class="tag tag-ai">Live Scenarios</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="suite.html" class="btn-launch" style="background:#004a20;" target="_blank">▶ Launch</a>
-          <a href="suite.html" download class="btn-dl">↓</a>
+      <div class="cf-foot">
+        <div><div class="vn"></div><div class="vd"></div></div>
+        <div class="brow">
+          <a class="btn g" href="https://babusl.github.io/ParticipantController/index.html" target="_blank">▶ Launch</a>
+          <a class="btn sm" href="https://babusl.github.io/ParticipantController/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ══ HARDWARE ══════════════════════════════════════════════════════════ -->
-  <div class="section-label">HapticLung Hardware — Physical device, requires assembly</div>
+  <!-- ══ SECTION 2: SOLO PRACTICE ══ -->
+  <div class="sect">
+    <div class="sect-title">🎓 Solo practice</div>
+    <div class="sect-sub">No instructor · no connections · works on any device</div>
+    <div class="sect-line"></div>
+  </div>
 
-  <div class="tool-grid">
+  <div class="grid">
 
-    <!-- Firmware -->
-    <div class="tool-card wide"
-         data-version="Mk.5"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-blue"></div>
-      <div class="card-body">
-        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
-          <div>
-            <div class="card-icon">⚡</div>
-            <div class="card-name">HapticLung Firmware</div>
-            <div class="card-filename">hapticlung_firmware_mk5.ino</div>
-          </div>
-          <div class="card-desc" style="flex:1;min-width:200px">
-            ESP32-C3 firmware for the HapticLung Mk.5 physical resistance device. Changes APL valve position in real time based on ventilator pathology. Uses WiFiManager for setup — connect to "HapticLung-Setup" hotspot on first boot, enter your WiFi credentials once. Flash via Arduino IDE or esptool-js in Chrome.
-            <div class="card-tags" style="margin-top:10px">
-              <span class="tag tag-hw">ESP32-C3</span>
-              <span class="tag tag-hw">WebSocket</span>
-              <span class="tag tag-or">2.4GHz only</span>
-            </div>
-          </div>
-        </div>
+    <div class="card c1" data-v="v1.1" data-d="Apr 2026">
+      <div class="stripe" style="background:linear-gradient(90deg,#5a2a8a,#8a4acc)"></div>
+      <div class="cb">
+        <div class="ci">🎓</div>
+        <div class="cn">MedSim Solo</div>
+        <div class="cf">Open and go · phone or laptop</div>
+        <div class="cd">13 ACLS/PALS pathways with AHA guideline feedback. Wrong answers teach, right answers advance. Random mode and OR scenario library included.</div>
       </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="hapticlung_firmware_mk5.ino" download class="btn-launch">↓ Download .ino</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3D Coupler -->
-    <div class="tool-card wide"
-         data-version="v1.0"
-         data-updated="Mar 19 2026">
-      <div class="card-accent ca-amber"></div>
-      <div class="card-body">
-        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
-          <div>
-            <div class="card-icon">🔩</div>
-            <div class="card-name">APL Valve Servo Coupler</div>
-            <div class="card-filename">apl_servo_coupler.scad</div>
-          </div>
-          <div class="card-desc" style="flex:1;min-width:200px">
-            OpenSCAD file for the 3D-printable adapter that couples an SG90 servo to the APL valve adjustment knob. Press-fit sleeve with internal grip nubs that grab the knurled knob surface. Set <code style="font-family:'DM Mono',monospace;font-size:11px">KNOB_OD</code> to your valve's diameter (measure with calipers). Export STL, print in PLA at 0.2mm layers, 40% infill. Tune fit in 0.2mm increments.
-            <div class="card-tags" style="margin-top:10px">
-              <span class="tag tag-3d">OpenSCAD</span>
-              <span class="tag tag-hw">SG90 Servo</span>
-              <span class="tag tag-hw">PLA · 30 min print</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="version-info">
-          <div class="version-num"></div>
-          <div class="version-date"></div>
-        </div>
-        <div class="card-btns">
-          <a href="apl_servo_coupler.scad" download class="btn-launch">↓ Download .scad</a>
+      <div class="cf-foot">
+        <div><div class="vn"></div><div class="vd"></div></div>
+        <div class="brow">
+          <a class="btn b" href="https://babusl.github.io/SimSolo/index.html" target="_blank">▶ Launch</a>
+          <a class="btn sm" href="https://babusl.github.io/SimSolo/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ══ QUICK START ════════════════════════════════════════════════════════ -->
-  <div class="section-label">Quick Start — Supervised Session</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:48px">
-    <div style="background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:16px">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:500;margin-bottom:6px">STEP 01</div>
-      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Start monitor</div>
-      <div style="font-size:12px;color:var(--sub);line-height:1.6">Open <code style="font-family:'DM Mono',monospace">medsim-10.html</code> on bedside screen. Note the room code.</div>
+  <!-- ══ SECTION 3: HARDWARE ══ -->
+  <div class="sect">
+    <div class="sect-title">⚡ HapticLung</div>
+    <div class="sect-sub">Physical device · ESP32-C3 + SG90 + APL valve</div>
+    <div class="sect-line"></div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card wide c1" data-v="Mk.5" data-d="Apr 2026">
+      <div class="stripe" style="background:linear-gradient(90deg,#0f4a8a,#2a7acc)"></div>
+      <div class="cb">
+        <div>
+          <div class="ci">⚡</div>
+          <div class="cn">HapticLung Firmware</div>
+          <div class="cf">Flash via Arduino IDE or esptool-js in Chrome</div>
+        </div>
+        <div class="cd" style="flex:1;min-width:200px;">
+          Changes APL valve resistance in real time linked to simulation state. Power on the ESP32-C3, connect to your phone hotspot (2.4GHz only), enter its IP address in the instructor controller. Hold BOOT button when flashing.
+        </div>
+      </div>
+      <div class="cf-foot">
+        <div><div class="vn"></div><div class="vd"></div></div>
+        <div class="brow">
+          <a class="btn b" href="https://babusl.github.io/hapticlung/index.html" target="_blank">▶ Open</a>
+          <a class="btn sm" href="https://babusl.github.io/hapticlung/index.html" download>↓</a>
+        </div>
+      </div>
     </div>
-    <div style="background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:16px">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:500;margin-bottom:6px">STEP 02</div>
-      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Connect ventilator</div>
-      <div style="font-size:12px;color:var(--sub);line-height:1.6">Open <code style="font-family:'DM Mono',monospace">medsim-vent-5.html</code> on a second screen or tablet.</div>
-    </div>
-    <div style="background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:16px">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:500;margin-bottom:6px">STEP 03</div>
-      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Instructor connects</div>
-      <div style="font-size:12px;color:var(--sub);line-height:1.6">Open <code style="font-family:'DM Mono',monospace">controller-16.html</code> on instructor phone, enter room code.</div>
-    </div>
-    <div style="background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:16px">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:500;margin-bottom:6px">STEP 04</div>
-      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Learners connect</div>
-      <div style="font-size:12px;color:var(--sub);line-height:1.6">Each learner opens <code style="font-family:'DM Mono',monospace">participant-controller.html</code> and enters the same room code.</div>
-    </div>
-    <div style="background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:16px">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:500;margin-bottom:6px">SELF-DIRECTED</div>
-      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Solo practice</div>
-      <div style="font-size:12px;color:var(--sub);line-height:1.6">Open <code style="font-family:'DM Mono',monospace">medsim-solo.html</code> on any device. No other files or connections needed.</div>
-    </div>
+
   </div>
 
 </main>
 
-<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-copy">© OR Simulation Center · orsimcenter.com · Built with MedSim Suite</div>
-    <div class="footer-links">
-      <a href="medsim-solo.html">Solo Sim</a>
-      <a href="controller-16.html">Controller</a>
-      <a href="medsim-10.html">Monitor</a>
-    </div>
+  <div class="fi">
+    <div class="fc">© OR Simulation Center · Pediatric Anesthesia Simulation</div>
+    <div class="fn">All tools run in browser · no install required</div>
   </div>
 </footer>
 
 <script>
-// Auto-populate version badges from data attributes
-document.querySelectorAll('.tool-card').forEach(function(card) {
-  var ver = card.getAttribute('data-version');
-  var upd = card.getAttribute('data-updated');
-  var vEl = card.querySelector('.version-num');
-  var dEl = card.querySelector('.version-date');
-  if(vEl && ver) vEl.textContent = ver;
-  if(dEl && upd) dEl.textContent = 'Updated ' + upd;
+document.querySelectorAll('.card').forEach(function(c){
+  var v=c.getAttribute('data-v'), d=c.getAttribute('data-d');
+  c.querySelectorAll('.vn').forEach(function(el){el.textContent=v||'';});
+  c.querySelectorAll('.vd').forEach(function(el){el.textContent=d?'Updated '+d:'';});
 });
 </script>
 </body>
