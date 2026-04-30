@@ -3,252 +3,352 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>OR Simulation Center</title>
+<title>OR Simulation Center — Suite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f2f0eb;--bg2:#e8e5de;--panel:#fff;
-  --bd:#d4d0c8;--bd2:#bab6ac;
-  --tx:#1a1916;--sub:#7a7670;--sub2:#a09c96;
-  --accent:#c8420a;--green:#1a6e3a;--blue:#0f4a8a;--amber:#9a5a08;
+  --navy:#0d1b2e;
+  --navy2:#112244;
+  --teal:#0d9488;
+  --teal-light:#14b8a6;
+  --teal-bright:#2dd4bf;
+  --cream:#edeae3;
+  --cream2:#f5f2eb;
+  --white:#ffffff;
+  --bd:#e2ddd6;
+  --bd2:#ccc8c0;
+  --tx:#1a1a1a;
+  --sub:#6b7280;
+  --sub2:#9ca3af;
+  --blue:#3b82f6;
+  --green:#10b981;
+  --amber:#f59e0b;
+  --purple:#8b5cf6;
+  --red:#ef4444;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--tx);font-family:'Syne',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
+body{
+  background:var(--cream);color:var(--tx);
+  font-family:'Inter',sans-serif;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
 
-/* HEADER */
-header{background:var(--tx);padding:0 40px;position:relative;overflow:hidden;}
-.hi{max-width:960px;margin:0 auto;padding:48px 0 40px;position:relative;z-index:1;}
-.rule{width:48px;height:3px;background:var(--accent);margin-bottom:18px;}
-.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;color:#665;text-transform:uppercase;margin-bottom:10px;}
-h1{font-family:'Instrument Serif',serif;font-size:clamp(32px,6vw,56px);font-weight:400;color:#fff;line-height:1.08;letter-spacing:-0.5px;}
-h1 em{font-style:italic;color:#d4a882;}
-.hsub{font-size:13px;color:#555;margin-top:12px;line-height:1.8;max-width:440px;}
+/* ── NAV ── */
+nav{
+  background:var(--navy);
+  padding:0 40px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  position:sticky;top:0;z-index:100;
+}
+.nav-inner{
+  max-width:1080px;margin:0 auto;
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;
+}
+.nav-logo{
+  width:36px;height:36px;border-radius:9px;
+  background:linear-gradient(135deg,#0d9488,#0f766e);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.nav-text{}
+.nav-title{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px;}
+.nav-sub{font-size:10px;color:#64748b;letter-spacing:2px;text-transform:uppercase;font-weight:500;margin-top:1px;}
+.nav-links{margin-left:auto;display:flex;gap:24px;}
+.nav-link{font-size:12px;color:#64748b;text-decoration:none;font-weight:500;letter-spacing:.3px;transition:color .15s;}
+.nav-link:hover{color:#94a3b8;}
 
-/* MAIN */
-main{max-width:960px;margin:0 auto;padding:40px 40px 80px;position:relative;z-index:1;}
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(160deg, var(--navy) 0%, #0d2a3d 50%, #0d3a3a 100%);
+  padding:80px 40px 90px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 60% 50%,rgba(13,148,136,.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.03) 59px,rgba(255,255,255,.03) 60px),
+    repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.03) 59px,rgba(255,255,255,.03) 60px);
+  pointer-events:none;
+}
+.hero-inner{max-width:1080px;margin:0 auto;position:relative;z-index:1;}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid var(--teal);border-radius:99px;
+  padding:5px 14px;font-size:11px;font-weight:600;
+  color:var(--teal-bright);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:22px;background:rgba(13,148,136,.08);
+}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--teal-bright);}
+.hero h1{
+  font-size:clamp(36px,6vw,60px);font-weight:800;
+  color:#fff;line-height:1.08;letter-spacing:-.5px;
+  margin-bottom:16px;
+}
+.hero h1 em{font-style:italic;color:var(--teal-bright);font-weight:700;}
+.hero-sub{font-size:16px;color:#94a3b8;line-height:1.8;max-width:520px;}
 
-/* SECTION */
-.sect{margin:40px 0 16px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+/* ── MAIN ── */
+main{max-width:1080px;margin:0 auto;padding:52px 40px 80px;}
+
+/* ── SECTION ── */
+.sect{margin:52px 0 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
 .sect:first-child{margin-top:0;}
-.sect-title{font-size:18px;font-weight:800;letter-spacing:-.3px;}
-.sect-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);letter-spacing:.5px;}
+.sect-title{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub);}
 .sect-line{flex:1;height:1px;background:var(--bd);min-width:20px;}
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
 
-/* CARD */
+/* ── CARD ── */
 .card{
-  background:var(--panel);border:1px solid var(--bd);border-radius:14px;
+  background:var(--white);border:1px solid var(--bd);border-radius:16px;
   overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
   transition:transform .2s,box-shadow .2s,border-color .2s;
   animation:up .35s ease both;
 }
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.09);border-color:var(--bd2);}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,.10),0 2px 6px rgba(0,0,0,.06);
+  border-color:var(--bd2);
+}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.c1{animation-delay:.04s}.c2{animation-delay:.08s}.c3{animation-delay:.12s}
-.c4{animation-delay:.16s}.c5{animation-delay:.20s}.c6{animation-delay:.24s}
+.c1{animation-delay:.05s}.c2{animation-delay:.10s}.c3{animation-delay:.15s}
+.c4{animation-delay:.20s}.c5{animation-delay:.25s}.c6{animation-delay:.30s}
 
-.stripe{height:3px;}
-.cb{padding:20px 20px 14px;flex:1;display:flex;flex-direction:column;}
-.ci{font-size:28px;margin-bottom:10px;line-height:1;}
-.cn{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:3px;}
-.cf{font-family:'DM Mono',monospace;font-size:9px;color:var(--sub2);margin-bottom:8px;letter-spacing:.3px;}
-.cd{font-size:12px;color:var(--sub);line-height:1.7;flex:1;}
+.stripe{height:4px;}
+.cb{padding:24px 24px 16px;flex:1;display:flex;flex-direction:column;}
+.ci{font-size:32px;margin-bottom:12px;line-height:1;}
+.cn{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px;color:var(--tx);line-height:1.2;}
+.cf{font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);margin-bottom:10px;letter-spacing:.3px;}
+.cd{font-size:13px;color:var(--sub);line-height:1.75;flex:1;}
 
-.cf-foot{
-  border-top:1px solid var(--bd);padding:11px 20px;
+.card-foot{
+  border-top:1px solid var(--bd);padding:14px 24px;
   display:flex;align-items:center;justify-content:space-between;
-  background:#fafaf8;
+  background:var(--cream2);
 }
 .vn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--tx);}
-.vd{font-family:'DM Mono',monospace;font-size:9px;color:var(--sub2);margin-top:1px;}
-.brow{display:flex;gap:6px;}
+.vd{font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);margin-top:2px;}
+.btns{display:flex;gap:7px;}
 
+/* BUTTONS */
 .btn{
-  background:var(--tx);color:#fff;border:none;border-radius:7px;
-  padding:7px 14px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
-  letter-spacing:.5px;cursor:pointer;text-decoration:none;
+  border:none;border-radius:8px;
+  padding:9px 18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:-.1px;cursor:pointer;text-decoration:none;
   display:inline-flex;align-items:center;gap:5px;
-  transition:background .15s;white-space:nowrap;
+  transition:all .15s;white-space:nowrap;
 }
-.btn:hover{background:#2a2820;}
-.btn.g{background:var(--green);}.btn.g:hover{background:#145530;}
-.btn.b{background:var(--blue);}.btn.b:hover{background:#0a3a70;}
-.btn.a{background:var(--amber);}.btn.a:hover{background:#7a4406;}
-.btn.sm{background:var(--bg2);color:var(--sub);border:1px solid var(--bd);font-size:10px;padding:6px 10px;}
-.btn.sm:hover{background:var(--bd);color:var(--tx);}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:hover{background:var(--navy2);}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-teal:hover{background:#0f766e;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:#2563eb;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:#059669;}
+.btn-amber{background:var(--amber);color:#fff;}
+.btn-amber:hover{background:#d97706;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-purple:hover{background:#7c3aed;}
+.btn-ghost{background:var(--cream);color:var(--sub);border:1px solid var(--bd);font-size:12px;padding:8px 12px;}
+.btn-ghost:hover{background:var(--bd);color:var(--tx);}
 
 /* WIDE CARD */
 .card.wide{grid-column:1/-1;flex-direction:row;}
-.card.wide .stripe{width:3px;height:auto;flex-shrink:0;}
-.card.wide .cb{padding:20px 22px;flex-direction:row;align-items:flex-start;gap:20px;flex-wrap:wrap;}
-.card.wide .cf-foot{border-top:none;border-left:1px solid var(--bd);flex-direction:column;align-items:flex-start;justify-content:center;min-width:150px;padding:18px 20px;}
+.card.wide .stripe{width:4px;height:auto;flex-shrink:0;}
+.card.wide .cb{padding:24px 26px;flex-direction:row;align-items:flex-start;gap:24px;flex-wrap:wrap;}
+.card.wide .card-foot{border-top:none;border-left:1px solid var(--bd);flex-direction:column;align-items:flex-start;justify-content:center;min-width:160px;padding:20px 22px;}
 
 /* FOOTER */
-footer{background:var(--tx);padding:24px 40px;position:relative;z-index:1;}
-.fi{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
-.fc,.fn{font-family:'DM Mono',monospace;font-size:11px;color:#444;}
+footer{
+  background:var(--navy);padding:28px 40px;
+}
+.fi{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.fc,.fn{font-family:'DM Mono',monospace;font-size:11px;color:#475569;}
 
 @media(max-width:640px){
-  header,main,footer{padding-left:20px;padding-right:20px;}
+  nav,main,footer{padding-left:20px;padding-right:20px;}
+  .hero{padding:52px 20px 60px;}
   .card.wide{flex-direction:column;}
-  .card.wide .stripe{width:100%;height:3px;}
-  .card.wide .cf-foot{border-left:none;border-top:1px solid var(--bd);flex-direction:row;min-width:unset;}
-  .card.wide .cb{flex-direction:column;gap:8px;}
+  .card.wide .stripe{width:100%;height:4px;}
+  .card.wide .card-foot{border-left:none;border-top:1px solid var(--bd);flex-direction:row;min-width:unset;}
+  .card.wide .cb{flex-direction:column;gap:10px;}
+  .nav-links{display:none;}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="hi">
-    <div class="rule"></div>
-    <div class="eyebrow">OR Simulation Center</div>
-    <h1>Simulation<br><em>Suite</em></h1>
-    <p class="hsub">All tools run in any browser. No install required.</p>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">🫁</div>
+    <div class="nav-text">
+      <div class="nav-title">OR Simulation Center</div>
+      <div class="nav-sub">Simulation Suite</div>
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" href="https://www.orsimcenter.com" target="_blank">Scenario Library</a>
+      <a class="nav-link" href="https://babusl.github.io/SimSolo/" target="_blank">Solo Training</a>
+      <a class="nav-link" href="https://babusl.github.io/SimVitalsController/" target="_blank">Controller</a>
+    </div>
   </div>
-</header>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge"><div class="badge-dot"></div>Clinical Education Resource</div>
+    <h1>Simulation Tools for<br><em>Every Setting</em></h1>
+    <p class="hero-sub">Browser-based anesthesia simulation — instructor-led sessions, self-directed ACLS/PALS practice, and physical haptic resistance training. No install required.</p>
+  </div>
+</div>
 
 <main>
 
-  <!-- ══ SECTION 1: HOSTING A SESSION ══ -->
+  <!-- ══ HOSTING A SESSION ══ -->
   <div class="sect">
-    <div class="sect-title">🏥 Hosting a session</div>
-    <div class="sect-sub">Open in order · connect with same room code</div>
+    <div class="sect-title">🏥 Hosting a simulation session</div>
     <div class="sect-line"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);letter-spacing:.5px;white-space:nowrap">Open in order · same room code</div>
   </div>
 
   <div class="grid">
 
     <div class="card c1" data-v="v10" data-d="Apr 2026">
-      <div class="stripe" style="background:linear-gradient(90deg,#c8420a,#f08040)"></div>
+      <div class="stripe" style="background:linear-gradient(90deg,#3b82f6,#60a5fa)"></div>
       <div class="cb">
         <div class="ci">🖥️</div>
         <div class="cn">Patient Monitor</div>
-        <div class="cf">Step 1 — open first on bedside display</div>
-        <div class="cd">Live ECG, SpO2, art line, EtCO2, NIBP, alarms. Shows the room code everyone connects to.</div>
+        <div class="cf">Step 1 · open first on bedside display</div>
+        <div class="cd">Live ECG, SpO2, arterial line, EtCO2, NIBP, and alarms. Displays the room code everyone connects to.</div>
       </div>
-      <div class="cf-foot">
+      <div class="card-foot">
         <div><div class="vn"></div><div class="vd"></div></div>
-        <div class="brow">
-          <a class="btn" href="https://babusl.github.io/vitalmonitor/index.html" target="_blank">▶ Launch</a>
-          <a class="btn sm" href="https://babusl.github.io/vitalmonitor/index.html" download>↓</a>
+        <div class="btns">
+          <a class="btn btn-primary" href="https://babusl.github.io/vitalmonitor/index.html" target="_blank">▶ Launch</a>
+          <a class="btn btn-ghost" href="https://babusl.github.io/vitalmonitor/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
     <div class="card c2" data-v="v5" data-d="Apr 2026">
-      <div class="stripe" style="background:linear-gradient(90deg,#0a6a6a,#1aacac)"></div>
+      <div class="stripe" style="background:linear-gradient(90deg,#0d9488,#2dd4bf)"></div>
       <div class="cb">
         <div class="ci">🌬️</div>
         <div class="cn">Ventilator Simulator</div>
-        <div class="cf">Step 2 — second screen or tablet</div>
-        <div class="cd">VCV, PCV, SIMV, PSV. Real waveforms. Pathology modes: bronchospasm, pneumothorax, ARDS and more.</div>
+        <div class="cf">Step 2 · second screen or tablet</div>
+        <div class="cd">VCV, PCV, SIMV, PSV. Real pressure/flow/volume waveforms. Pathology modes: bronchospasm, pneumothorax, ARDS and more.</div>
       </div>
-      <div class="cf-foot">
+      <div class="card-foot">
         <div><div class="vn"></div><div class="vd"></div></div>
-        <div class="brow">
-          <a class="btn" href="https://babusl.github.io/ventsim/index.html" target="_blank">▶ Launch</a>
-          <a class="btn sm" href="https://babusl.github.io/ventsim/index.html" download>↓</a>
+        <div class="btns">
+          <a class="btn btn-teal" href="https://babusl.github.io/ventsim/index.html" target="_blank">▶ Launch</a>
+          <a class="btn btn-ghost" href="https://babusl.github.io/ventsim/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
     <div class="card c3" data-v="v16" data-d="Apr 2026">
-      <div class="stripe" style="background:linear-gradient(90deg,#9a5a08,#c89020)"></div>
+      <div class="stripe" style="background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
       <div class="cb">
         <div class="ci">📱</div>
         <div class="cn">Instructor Controller</div>
-        <div class="cf">Step 3 — your phone</div>
-        <div class="cd">Controls drugs, rhythms, vent pathology. Sim Runner with AI scenario builder and 6 peds presets built in.</div>
+        <div class="cf">Step 3 · your phone</div>
+        <div class="cd">Controls drugs, rhythms, and vent pathology. Sim Runner with AI scenario builder and 6 pediatric presets built in.</div>
       </div>
-      <div class="cf-foot">
+      <div class="card-foot">
         <div><div class="vn"></div><div class="vd"></div></div>
-        <div class="brow">
-          <a class="btn a" href="https://babusl.github.io/SimVitalsController/index.html" target="_blank">▶ Launch</a>
-          <a class="btn sm" href="https://babusl.github.io/SimVitalsController/index.html" download>↓</a>
+        <div class="btns">
+          <a class="btn btn-amber" href="https://babusl.github.io/SimVitalsController/index.html" target="_blank">▶ Launch</a>
+          <a class="btn btn-ghost" href="https://babusl.github.io/SimVitalsController/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
     <div class="card c4" data-v="v1.2" data-d="Apr 2026">
-      <div class="stripe" style="background:linear-gradient(90deg,#1a6e3a,#2ab860)"></div>
+      <div class="stripe" style="background:linear-gradient(90deg,#10b981,#34d399)"></div>
       <div class="cb">
         <div class="ci">🩺</div>
         <div class="cn">Learner Controller</div>
-        <div class="cf">Step 4 — share with participants</div>
-        <div class="cd">Participant phone interface. Drugs, NMB, analgesics, vent, procedures. Instructor can lock remotely.</div>
+        <div class="cf">Step 4 · share with participants</div>
+        <div class="cd">Participant phone interface. Drugs, NMB, analgesics, vent adjustments, CPR, defib. Instructor can lock controls remotely.</div>
       </div>
-      <div class="cf-foot">
+      <div class="card-foot">
         <div><div class="vn"></div><div class="vd"></div></div>
-        <div class="brow">
-          <a class="btn g" href="https://babusl.github.io/ParticipantController/index.html" target="_blank">▶ Launch</a>
-          <a class="btn sm" href="https://babusl.github.io/ParticipantController/index.html" download>↓</a>
+        <div class="btns">
+          <a class="btn btn-green" href="https://babusl.github.io/ParticipantController/index.html" target="_blank">▶ Launch</a>
+          <a class="btn btn-ghost" href="https://babusl.github.io/ParticipantController/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ══ SECTION 2: SOLO PRACTICE ══ -->
+  <!-- ══ SOLO PRACTICE ══ -->
   <div class="sect">
     <div class="sect-title">🎓 Solo practice</div>
-    <div class="sect-sub">No instructor · no connections · works on any device</div>
     <div class="sect-line"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);letter-spacing:.5px;white-space:nowrap">No instructor · no connections · any device</div>
   </div>
 
   <div class="grid">
 
     <div class="card c1" data-v="v1.1" data-d="Apr 2026">
-      <div class="stripe" style="background:linear-gradient(90deg,#5a2a8a,#8a4acc)"></div>
+      <div class="stripe" style="background:linear-gradient(90deg,#8b5cf6,#a78bfa)"></div>
       <div class="cb">
         <div class="ci">🎓</div>
         <div class="cn">MedSim Solo</div>
         <div class="cf">Open and go · phone or laptop</div>
         <div class="cd">13 ACLS/PALS pathways with AHA guideline feedback. Wrong answers teach, right answers advance. Random mode and OR scenario library included.</div>
       </div>
-      <div class="cf-foot">
+      <div class="card-foot">
         <div><div class="vn"></div><div class="vd"></div></div>
-        <div class="brow">
-          <a class="btn b" href="https://babusl.github.io/SimSolo/index.html" target="_blank">▶ Launch</a>
-          <a class="btn sm" href="https://babusl.github.io/SimSolo/index.html" download>↓</a>
+        <div class="btns">
+          <a class="btn btn-purple" href="https://babusl.github.io/SimSolo/index.html" target="_blank">▶ Launch</a>
+          <a class="btn btn-ghost" href="https://babusl.github.io/SimSolo/index.html" download>↓</a>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ══ SECTION 3: HARDWARE ══ -->
+  <!-- ══ HARDWARE ══ -->
   <div class="sect">
     <div class="sect-title">⚡ HapticLung</div>
-    <div class="sect-sub">Physical device · ESP32-C3 + SG90 + APL valve</div>
     <div class="sect-line"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sub2);letter-spacing:.5px;white-space:nowrap">Physical device · ESP32-C3 + SG90 + APL valve</div>
   </div>
 
   <div class="grid">
 
     <div class="card wide c1" data-v="Mk.5" data-d="Apr 2026">
-      <div class="stripe" style="background:linear-gradient(90deg,#0f4a8a,#2a7acc)"></div>
+      <div class="stripe" style="background:linear-gradient(180deg,#3b82f6,#1d4ed8)"></div>
       <div class="cb">
         <div>
           <div class="ci">⚡</div>
           <div class="cn">HapticLung Firmware</div>
-          <div class="cf">Flash via Arduino IDE or esptool-js in Chrome</div>
+          <div class="cf">Flash via Chrome or Edge · hold BOOT button if needed</div>
         </div>
-        <div class="cd" style="flex:1;min-width:200px;">
-          Changes APL valve resistance in real time linked to simulation state. Power on the ESP32-C3, connect to your phone hotspot (2.4GHz only), enter its IP address in the instructor controller. Hold BOOT button when flashing.
+        <div class="cd" style="flex:1;min-width:200px;padding-top:4px;">
+          Changes APL valve resistance in real time linked to simulation state. Power on the ESP32-C3, connect to your phone hotspot (2.4GHz only), enter its IP in the instructor controller. One-click browser-based flashing — no software install needed.
         </div>
       </div>
-      <div class="cf-foot">
+      <div class="card-foot">
         <div><div class="vn"></div><div class="vd"></div></div>
-        <div class="brow">
-          <a class="btn b" href="https://babusl.github.io/hapticlung/index.html" target="_blank">▶ Open</a>
-          <a class="btn sm" href="https://babusl.github.io/hapticlung/index.html" download>↓</a>
+        <div class="btns">
+          <a class="btn btn-blue" href="https://babusl.github.io/hapticlung/index.html" target="_blank">▶ Flash Tool</a>
+          <a class="btn btn-ghost" href="https://babusl.github.io/hapticlung/index.html" download>↓</a>
         </div>
       </div>
     </div>
@@ -266,7 +366,7 @@ footer{background:var(--tx);padding:24px 40px;position:relative;z-index:1;}
 
 <script>
 document.querySelectorAll('.card').forEach(function(c){
-  var v=c.getAttribute('data-v'), d=c.getAttribute('data-d');
+  var v=c.getAttribute('data-v'),d=c.getAttribute('data-d');
   c.querySelectorAll('.vn').forEach(function(el){el.textContent=v||'';});
   c.querySelectorAll('.vd').forEach(function(el){el.textContent=d?'Updated '+d:'';});
 });
